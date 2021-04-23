@@ -9,26 +9,33 @@ import UIKit
 
 class CharacterListVC: UIViewController {
     
+    static var cellName: String { "CharacterCell" }
+    
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
     
-    var viewModel: CharacterListVM = .init()
+    var viewModel: CharacterListVM = .init(provider: CharacterProvider_API())
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
+    }
+    
+    func setup() {
+        tableView.register(UINib(nibName: "MarvelCharacterCell", bundle: nil),
+                           forCellReuseIdentifier: Self.cellName)
+        tableView.rowHeight = 96
     }
     
     func loadData(with searchTerm: String) {
-        viewModel.loadData(with: searchTerm) { (result) in
-            switch result {
-            case .success:
+        viewModel.loadData(with: searchTerm) { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
-            
         }
     }
 
@@ -51,10 +58,11 @@ extension CharacterListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellName,
+                                                 for: indexPath) as! MarvelCharacterCell
         
-        let item = viewModel.characters[indexPath.row]
-        cell.textLabel?.text = item.name
+        let cellVM = self.viewModel.characters[indexPath.row]
+        cell.setup(with: cellVM)
         
         return cell
     }

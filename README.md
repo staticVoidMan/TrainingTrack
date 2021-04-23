@@ -5,6 +5,9 @@ This is an internal training track conducted to introduce concepts & thought pro
 
 Contents (so far):
 - Day 1: Introduction to MVVM
+- Day 2:
+ - Custom `UITableViewCell`<sup>*nib</sup> with MVVM
+ - Provider Design w/ S.O.L.I.D.
 
 based on the [Marvel API][1]
 
