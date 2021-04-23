@@ -13,6 +13,7 @@
 		900DB7832629AE2900EC20EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900DB7822629AE2900EC20EA /* Assets.xcassets */; };
 		900DB7862629AE2900EC20EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900DB7842629AE2900EC20EA /* LaunchScreen.storyboard */; };
 		900DB78F2629AE4000EC20EA /* CharacterListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900DB78E2629AE4000EC20EA /* CharacterListVC.swift */; };
+		906D8681262D53CE00FCCDEC /* Marvel-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 906D8680262D53CE00FCCDEC /* Marvel-Info.plist */; };
 		907F2F182629B08C000A42A3 /* CharacterListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907F2F172629B08C000A42A3 /* CharacterListVM.swift */; };
 		907F2F1B2629B571000A42A3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907F2F1A2629B571000A42A3 /* StringExtension.swift */; };
 		907F2F1E2629B677000A42A3 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907F2F1D2629B677000A42A3 /* Character.swift */; };
@@ -27,9 +28,11 @@
 		900DB7852629AE2900EC20EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		900DB7872629AE2900EC20EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		900DB78E2629AE4000EC20EA /* CharacterListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListVC.swift; sourceTree = "<group>"; };
+		906D8680262D53CE00FCCDEC /* Marvel-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Marvel-Info.plist"; sourceTree = "<group>"; };
 		907F2F172629B08C000A42A3 /* CharacterListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListVM.swift; sourceTree = "<group>"; };
 		907F2F1A2629B571000A42A3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		907F2F1D2629B677000A42A3 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		90C74A84262B2D9B00905B75 /* Marvel-Info-Sample.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Marvel-Info-Sample.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,8 @@
 				900DB7822629AE2900EC20EA /* Assets.xcassets */,
 				900DB7842629AE2900EC20EA /* LaunchScreen.storyboard */,
 				900DB7872629AE2900EC20EA /* Info.plist */,
+				90C74A84262B2D9B00905B75 /* Marvel-Info-Sample.plist */,
+				906D8680262D53CE00FCCDEC /* Marvel-Info.plist */,
 			);
 			path = MarvelCharactersPoC;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 900DB78A2629AE2900EC20EA /* Build configuration list for PBXNativeTarget "MarvelCharactersPoC" */;
 			buildPhases = (
+				90C74A87262B2EB500905B75 /* API Access Setup */,
 				900DB7722629AE2700EC20EA /* Sources */,
 				900DB7732629AE2700EC20EA /* Frameworks */,
 				900DB7742629AE2700EC20EA /* Resources */,
@@ -144,10 +150,32 @@
 				900DB7862629AE2900EC20EA /* LaunchScreen.storyboard in Resources */,
 				900DB7832629AE2900EC20EA /* Assets.xcassets in Resources */,
 				900DB7812629AE2700EC20EA /* Main.storyboard in Resources */,
+				906D8681262D53CE00FCCDEC /* Marvel-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		90C74A87262B2EB500905B75 /* API Access Setup */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "API Access Setup";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nCONFIG_FILE_BASE_NAME=\"Marvel-Info\"\n\nCONFIG_FILE_NAME=${CONFIG_FILE_BASE_NAME}.plist\nSAMPLE_CONFIG_FILE_NAME=${CONFIG_FILE_BASE_NAME}-Sample.plist\n\nCONFIG_FILE_PATH=$SRCROOT/$PRODUCT_NAME/$CONFIG_FILE_NAME\nSAMPLE_CONFIG_FILE_PATH=$SRCROOT/$PRODUCT_NAME/$SAMPLE_CONFIG_FILE_NAME\n\nif [ -f \"$CONFIG_FILE_PATH\" ]; then\n  echo \"$CONFIG_FILE_PATH exists.\"\nelse\n  echo \"$CONFIG_FILE_PATH does not exist, copying sample\"\n  cp -v \"${SAMPLE_CONFIG_FILE_PATH}\" \"${CONFIG_FILE_PATH}\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		900DB7722629AE2700EC20EA /* Sources */ = {
