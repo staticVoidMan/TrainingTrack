@@ -50,9 +50,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="characterDescriptionLabel" destination="kD9-zk-VWi" id="kb8-Gt-NYw"/>
-                <outlet property="characterImageView" destination="jBJ-6F-bz5" id="Ta6-O9-Z6G"/>
-                <outlet property="characterNameLabel" destination="RyS-ch-rcB" id="kuI-FS-AiM"/>
+                <outlet property="itemDescriptionLabel" destination="kD9-zk-VWi" id="kb8-Gt-NYw"/>
+                <outlet property="itemImageView" destination="jBJ-6F-bz5" id="Ta6-O9-Z6G"/>
+                <outlet property="itemNameLabel" destination="RyS-ch-rcB" id="kuI-FS-AiM"/>
             </connections>
             <point key="canvasLocation" x="11.594202898550726" y="117.1875"/>
         </tableViewCell>

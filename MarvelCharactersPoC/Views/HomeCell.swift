@@ -9,19 +9,19 @@ import UIKit
 
 class HomeCell: UITableViewCell {
     
-    @IBOutlet weak var characterImageView: UIImageView!
-    @IBOutlet weak var characterNameLabel: UILabel!
-    @IBOutlet weak var characterDescriptionLabel: UILabel!
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var itemDescriptionLabel: UILabel!
     
     func setup(with viewModel: HomeCellVM) {
-        characterNameLabel.text = viewModel.name
-        characterDescriptionLabel.text = viewModel.description
+        itemNameLabel.text = viewModel.name
+        itemDescriptionLabel.text = viewModel.description
         
         viewModel.getImage { [weak self] (image) in
             guard let _weakSelf = self else { return }
             
             DispatchQueue.main.async {
-                _weakSelf.characterImageView.image = image
+                _weakSelf.itemImageView.image = image
             }
         }
     }
