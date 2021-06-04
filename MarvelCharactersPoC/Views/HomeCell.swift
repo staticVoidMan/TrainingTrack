@@ -7,13 +7,13 @@
 
 import UIKit
 
-class MarvelCharacterCell: UITableViewCell {
+class HomeCell: UITableViewCell {
     
     @IBOutlet weak var characterImageView: UIImageView!
     @IBOutlet weak var characterNameLabel: UILabel!
     @IBOutlet weak var characterDescriptionLabel: UILabel!
     
-    func setup(with viewModel: MarvelCharacterCellVM) {
+    func setup(with viewModel: HomeCellVM) {
         characterNameLabel.text = viewModel.name
         characterDescriptionLabel.text = viewModel.description
         

@@ -1,21 +1,29 @@
 //
-//  MarvelCharacterCellVM.swift
+//  ComicCellVM.swift
 //  MarvelCharactersPoC
 //
-//  Created by Amin Siddiqui on 23/04/21.
+//  Created by Amin Siddiqui on 04/06/21.
 //
 
 import UIKit
 
-class MarvelCharacterCellVM {
+class ComicCellVM {
     
-    private let character: Character
+    private let comic: Comic
     
-    var name: String { character.name }
+    init(comic: Comic) {
+        self.comic = comic
+    }
     
-    var description: String { character.description }
+}
+
+extension ComicCellVM: HomeCellVM {
     
-    var imageURL: URL? { character.thumbnail.url }
+    var name: String { comic.title }
+    
+    var description: String { comic.description ?? "" }
+    
+    var imageURL: URL? { comic.thumbnail.url }
     
     func getImage(completion: @escaping (UIImage?) -> Void) {
         guard let url = imageURL else { completion(nil); return }
@@ -30,10 +38,6 @@ class MarvelCharacterCellVM {
                 completion(nil)
             }
         }
-    }
-    
-    init(character: Character) {
-        self.character = character
     }
     
 }
