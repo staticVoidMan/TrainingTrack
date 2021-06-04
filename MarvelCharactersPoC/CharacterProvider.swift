@@ -9,6 +9,6 @@ typealias CharacterProviderHandler = (Result<[Character],Error>)->Void
 
 protocol CharacterProvider {
     
-    func getCharacter(searchTerm: String, completion: @escaping CharacterProviderHandler)
+    func getCharacters(searchTerm: String, completion: @escaping CharacterProviderHandler)
     
 }

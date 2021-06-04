@@ -9,7 +9,7 @@ import Foundation
 
 struct CharacterProvider_API: CharacterProvider {
     
-    func getCharacter(searchTerm: String, completion: @escaping CharacterProviderHandler) {
+    func getCharacters(searchTerm: String, completion: @escaping CharacterProviderHandler) {
         let urlString = "http://gateway.marvel.com/v1/public/characters?nameStartsWith=\(searchTerm)"
         
         let (publicKey, privateKey): (String, String) = {

@@ -7,7 +7,7 @@
 
 class CharacterProvider_Dummy: CharacterProvider {
     
-    func getCharacter(searchTerm: String, completion: @escaping CharacterProviderHandler) {
+    func getCharacters(searchTerm: String, completion: @escaping CharacterProviderHandler) {
         let result = [Character(id: 0, name: "Random Name",
                                 description: "Random Description",
                                 thumbnail: .init(path: "", ext: ""))]
