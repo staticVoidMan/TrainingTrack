@@ -16,7 +16,8 @@ class HomeVC: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var viewModel: HomeVM = .init(characterProvider : CharacterProvider_API(),
-                                  comicProvider     : ComicProvider_API())
+                                  comicProvider     : ComicProvider_API(),
+                                  creatorProvider: CreatorProvider_API() )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,3 +71,6 @@ extension HomeVC: UITableViewDataSource {
     }
     
 }
+
+
+///After segment change data of previous array remains in second segment

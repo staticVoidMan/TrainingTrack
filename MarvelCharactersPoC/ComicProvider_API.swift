@@ -31,6 +31,7 @@ struct ComicProvider_API: ComicProvider {
         let hash = (ts + privateKey + publicKey).md5
 
         let finalURLString = "\(urlString)&ts=\(ts)&apikey=\(publicKey)&hash=\(hash)"
+        print("Comic API: \(finalURLString)")
         let url = URL(string: finalURLString)!
         
         struct QuickResponse: Decodable {

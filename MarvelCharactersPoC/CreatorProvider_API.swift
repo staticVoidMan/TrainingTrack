@@ -1,17 +1,26 @@
 //
-//  CharacterProvider_API.swift
+//  CreatorProvider_API.swift
 //  MarvelCharactersPoC
 //
-//  Created by Amin Siddiqui on 23/04/21.
+//  Created by codewalla on 11/06/21.
 //
 
 import Foundation
 
-struct CharacterProvider_API: CharacterProvider {
-    
-    func getCharacters(searchTerm: String, completion: @escaping CharacterProviderHandler) {
-        let urlString = "http://gateway.marvel.com/v1/public/characters?nameStartsWith=\(searchTerm)"
+struct QuickResponseNew <T: Decodable> : Decodable {
+    struct Data: Decodable {
+        let results: [T]
+    }
+    ///Error comes like "Type 'QuickResponseNew.Data' does not conform to protocol 'Decodable'"
+    let data: Data
+}
+
+
+struct CreatorProvider_API: CreatorProvider {
+    func getCreators(searchTerm: String, completion: @escaping CreatorProviderHandler) {
+        let urlString = "http://gateway.marvel.com/v1/public/creators?nameStartsWith=\(searchTerm)"
         
+        print("urlString: \(urlString)")
         let (publicKey, privateKey): (String, String) = {
             guard let filePath = Bundle.main.path(forResource: "Marvel-Info", ofType: "plist"),
                   let dict = NSDictionary(contentsOfFile: filePath)
@@ -31,23 +40,17 @@ struct CharacterProvider_API: CharacterProvider {
         let hash = (ts + privateKey + publicKey).md5
 
         let finalURLString = "\(urlString)&ts=\(ts)&apikey=\(publicKey)&hash=\(hash)"
-        print("Character API: \(finalURLString)")
+        print("creator API: \(finalURLString)")
         let url = URL(string: finalURLString)!
         
-        struct QuickResponse: Decodable {
-            struct Data: Decodable {
-                let results: [Character]
-            }
-            
-            let data: Data
-        }
+        //This struct used thrice usually what will be the generic way
 
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let data = data {
                 do {
-                    let result = try JSONDecoder().decode(QuickResponseNew<Character>.self, from: data)
-                    let characters = result.data.results
-                    completion(.success(characters))
+                    let result = try JSONDecoder().decode(QuickResponseNew<Creator>.self, from: data)
+                    let creators = result.data.results
+                    completion(.success(creators))
                 } catch {
                     completion(.failure(error))
                 }
@@ -57,5 +60,8 @@ struct CharacterProvider_API: CharacterProvider {
             }
         }.resume()
     }
+    
+
+    
     
 }

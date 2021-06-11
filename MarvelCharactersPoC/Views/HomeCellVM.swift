@@ -22,6 +22,7 @@ extension HomeCellVM {
     func getImage(completion: @escaping (UIImage?) -> Void) {
         guard let url = imageURL else { completion(nil); return }
         
+        //WHY global
         DispatchQueue.global().async {
             do {
                 let data = try Data(contentsOf: url)
