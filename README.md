@@ -12,6 +12,9 @@ Contents (so far):
   - Protocol Oriented Programming
   - MVVM w/ protocols
   - Brief preview of Liskov's Substituition Principle in action
+- Day 4:
+  - Generics
+  - Component Creation: Network Component good practices
 
 based on the [Marvel API][1]
 
