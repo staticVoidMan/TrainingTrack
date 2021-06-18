@@ -63,8 +63,15 @@ class NetworkManager<Model: Decodable> {
         }()
         
         let finalURL = components.url!
-        print(finalURL)
-        let request = URLRequest(url: finalURL)
+        
+        var request = URLRequest(url: finalURL)
+        request.httpMethod = {
+            switch method {
+            case .get  : return "GET"
+            case .post : return "POST"
+            }
+        }()
+        
         return request
     }
     
