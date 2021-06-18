@@ -90,8 +90,8 @@ class NetworkManager<Model: Decodable> {
             if let data = data {
                 do {
                     let result = try JSONDecoder().decode(BaseResponse.self, from: data)
-                    let characters = result.data.results
-                    completion(.success(characters))
+                    let model = result.data.results
+                    completion(.success(model))
                 } catch {
                     completion(.failure(error))
                 }
