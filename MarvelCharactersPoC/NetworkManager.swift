@@ -14,6 +14,13 @@ class NetworkManager<Model: Decodable> {
     enum MethodType {
         case get(query: [URLQueryItem]?)
         case post(payload: Encodable?)
+        
+        var query: [URLQueryItem]? {
+            switch self {
+            case .get(let query) : return query
+            case .post           : return nil
+            }
+        }
     }
     
     private struct SecurityParameters {
@@ -51,15 +58,11 @@ class NetworkManager<Model: Decodable> {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = {
             let security = getSecurityParameters()
-            var items = [URLQueryItem(name: "ts", value: security.timeStamp),
-                         URLQueryItem(name: "apikey", value: security.publicKey),
-                         URLQueryItem(name: "hash", value: security.hash)]
-            
-            if case MethodType.get(let query) = method {
-                items.append(contentsOf: query ?? [])
-            }
-            
-            return items
+            let queryItems: [URLQueryItem] = method.query ?? []
+            let securityQueryItems = [URLQueryItem(name: "ts", value: security.timeStamp),
+                                      URLQueryItem(name: "apikey", value: security.publicKey),
+                                      URLQueryItem(name: "hash", value: security.hash)]
+            return queryItems + securityQueryItems
         }()
         
         let finalURL = components.url!
