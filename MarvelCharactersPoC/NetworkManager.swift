@@ -13,12 +13,19 @@ class NetworkManager<Model: Decodable> {
     
     enum MethodType {
         case get(query: [URLQueryItem]?)
-        case post(payload: Encodable?)
+        case post(payload: Data?)
         
         var query: [URLQueryItem]? {
             switch self {
             case .get(let query) : return query
             case .post           : return nil
+            }
+        }
+        
+        var payload: Data? {
+            switch self {
+            case .get               : return nil
+            case .post(let payload) : return payload
             }
         }
     }
@@ -74,6 +81,7 @@ class NetworkManager<Model: Decodable> {
             case .post : return "POST"
             }
         }()
+        request.httpBody = method.payload
         
         return request
     }
