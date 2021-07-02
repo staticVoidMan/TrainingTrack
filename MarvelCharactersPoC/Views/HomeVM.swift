@@ -9,12 +9,12 @@ import Foundation
 
 class HomeVM {
     
-    enum ContentType: String {
+    enum ContentType: Int {
         case characters
         case comics
     }
     
-    private var selectedContent: ContentType = .characters
+    private(set) var selectedContent: ContentType = .characters
     private let characterProvider: CharacterProvider
     private let comicProvider: ComicProvider
     
@@ -37,12 +37,9 @@ class HomeVM {
         self.comicProvider = comicProvider
     }
     
-    func segmentChanged(_ index: Int) {
-        if index == 0 {
-            selectedContent = .characters
-        } else {
-            selectedContent = .comics
-        }
+    func segmentChanged(_ type: ContentType?) {
+        guard let type = type else { return }
+        selectedContent = type
     }
     
     func loadData(searchTerm: String, completion: @escaping ()->Void) {
@@ -69,7 +66,6 @@ class HomeVM {
                     print(error)
                 }
             }
-            break
         }
     }
     

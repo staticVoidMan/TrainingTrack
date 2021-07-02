@@ -15,6 +15,8 @@ Contents (so far):
 - Day 4:
   - Generics
   - Component Creation: Network Component good practices
+- Day 5:
+  - Unit Testing
 
 based on the [Marvel API][1]
 

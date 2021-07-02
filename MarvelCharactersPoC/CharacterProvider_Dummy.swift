@@ -8,9 +8,12 @@
 class CharacterProvider_Dummy: CharacterProvider {
     
     func getCharacters(searchTerm: String, completion: @escaping CharacterProviderHandler) {
-        let result = [Character(id: 0, name: "Random Name",
-                                description: "Random Description",
-                                thumbnail: .init(path: "", ext: ""))]
+        let characters = [Character(id: 0,
+                                    name: "Character X",
+                                    description: "Character Description",
+                                    thumbnail: .init(path: "", ext: ""))]
+        
+        let result = characters.filter { $0.name.lowercased().contains(searchTerm) }
         completion(.success(result))
     }
     

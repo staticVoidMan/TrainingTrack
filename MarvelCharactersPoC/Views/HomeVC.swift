@@ -30,7 +30,7 @@ class HomeVC: UIViewController {
     }
     
     @IBAction func segmentControllerChanged(_ sender: UISegmentedControl) {
-        viewModel.segmentChanged(sender.selectedSegmentIndex)
+        viewModel.segmentChanged(.init(rawValue: sender.selectedSegmentIndex))
         loadData()
     }
     
