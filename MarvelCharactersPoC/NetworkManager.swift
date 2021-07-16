@@ -7,9 +7,16 @@
 
 import Foundation
 
+enum APIError: Error {
+    case noData
+    case urlInvalid(url: String)
+    case parsingFailed(_ error: Error)
+    case requestError(_ error: Error)
+}
+
 class NetworkManager<Model: Decodable> {
     
-    typealias NetworkManagerCompletion = (Result<Model,Error>)->Void
+    typealias NetworkManagerCompletion = (Result<Model,APIError>)->Void
     
     enum MethodType {
         case get(query: [URLQueryItem]?)
@@ -58,12 +65,11 @@ class NetworkManager<Model: Decodable> {
         return .init(publicKey: publicKey, hash: hash, timeStamp: ts)
     }
     
-    private static func getSecureRequest(for urlString: String, method: MethodType) -> URLRequest {
-        //TODO: Make function throwable for a cleaner try-catch solution ;)
-        let url = URL(string: urlString)!
+    private static func getSecureRequest(for urlString: String, method: MethodType) throws -> URLRequest {
+        guard var urlComponents = URLComponents(string: urlString)
+        else { throw APIError.urlInvalid(url: urlString) }
         
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = {
+        urlComponents.queryItems = {
             let security = getSecurityParameters()
             let queryItems: [URLQueryItem] = method.query ?? []
             let securityQueryItems = [URLQueryItem(name: "ts", value: security.timeStamp),
@@ -72,7 +78,8 @@ class NetworkManager<Model: Decodable> {
             return queryItems + securityQueryItems
         }()
         
-        let finalURL = components.url!
+        guard let finalURL = urlComponents.url
+        else { throw APIError.urlInvalid(url: urlComponents.string ?? urlString) }
         
         var request = URLRequest(url: finalURL)
         request.httpMethod = {
@@ -95,22 +102,31 @@ class NetworkManager<Model: Decodable> {
     }
     
     static func execute(url urlString: String, method: MethodType, completion: @escaping NetworkManagerCompletion) {
-        let request = getSecureRequest(for: urlString, method: method)
-        
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if let data = data {
-                do {
-                    let result = try JSONDecoder().decode(BaseResponse.self, from: data)
-                    let model = result.data.results
-                    completion(.success(model))
-                } catch {
-                    completion(.failure(error))
+        do {
+            let request = try getSecureRequest(for: urlString, method: method)
+            
+            URLSession.shared.dataTask(with: request) { (data, _, error) in
+                if let data = data {
+                    do {
+                        let result = try JSONDecoder().decode(BaseResponse.self, from: data)
+                        let model = result.data.results
+                        completion(.success(model))
+                    } catch {
+                        completion(.failure(.parsingFailed(error)))
+                    }
+                } else if let error = error {
+                    completion(.failure(.requestError(error)))
+                } else {
+                    completion(.failure(.noData))
                 }
-            } else {
-                let error = error ?? NSError()
+            }.resume()
+        } catch {
+            if let error = error as? APIError {
                 completion(.failure(error))
+            } else {
+                fatalError(error.localizedDescription)
             }
-        }.resume()
+        }
     }
     
 }
